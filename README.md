@@ -19,7 +19,9 @@
 ### Kuramoto Model
 
 **动力学方程**
+
 <img src="./resource/kuramoto-eq.png" alt="">
+
 其中，phi表示不同节点的相位，omega表示节点的固有频率，k表示节点之间的耦合强度
 
 **模型地址**
@@ -49,8 +51,11 @@ python dyn_models/kuramoto/data_generator_kuramoto.py
 #### Coupled Map Lattice(CML) Model
 
 **动力学方程**
+
 <img src="./resource/cml-eq0.png" alt="">
+
 其中X表示节点的位置，s表示耦合常数，f(x)表示logistic映射函数，其具体形式如下：
+
 <img src="./resource/cml-eq1.png" alt="">
 
 **模型地址**

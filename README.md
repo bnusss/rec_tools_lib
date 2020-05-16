@@ -2,7 +2,8 @@
 
 我们在这个库中整理了本组常用的网络重构方法，数据生成方法及数据，本项目保持持续更新
 
-### 目录
+<hr/>
+## 目录
 
 - 动力学模型
 	- <a href="#11">Kuramoto Model</a>
@@ -10,11 +11,12 @@
 - 网络重构方法
 - 常用数据
 
-### 动力学模型
+## 动力学模型
 
 <div id="11"></div>
+<hr/>
 
-#### Kuramoto Model
+### Kuramoto Model
 
 **动力学方程**
 <img src="./resource/kuramoto-eq.png" alt="">
@@ -42,6 +44,7 @@ python dyn_models/kuramoto/data_generator_kuramoto.py
 
 
 <div id="12"></div>
+<hr/>
 
 #### Coupled Map Lattice(CML) Model
 

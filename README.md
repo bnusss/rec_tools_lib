@@ -23,7 +23,7 @@
 
 Kuramoto Model又称藏本模型，是一种用来用来描述大量耦合振子同步行为的数学模型，大量相互作用元素群体中的同步现象是物理、生物、化学和社会系统中密集研究的主题。一个简单的例子是萤火虫的闪烁趋于同步的现象<a href="https://zhuanlan.zhihu.com/p/29620506">（萤火虫的同步现象）</a>，Kuramoto解决同步问题的方法是将系统的每一个主体建模为一个相位振荡器，这个模型假设，所有振子都是完全相同的，相互之间的耦合很弱、并且任意两个振子之间的相互作用强度取决于它们相位差的正弦。这个模型原本是为了描述化学振子、生物振子而构建，后发现具有广泛的应用。
 
-**相关资料**
+**Learn More**
 
 论文：<a href="http://scala.uc3m.es/publications_MANS/PDF/finalKura.pdf">The Kuramoto model: a simple paradigm for synchronization phenomena</a>
 
@@ -63,6 +63,17 @@ python dyn_models/kuramoto/data_generator_kuramoto.py
 <hr/>
 
 #### Coupled Map Lattice(CML) Model
+
+
+**介绍**
+
+Coupled Map Lattice（又称耦合晶格模型）是一个描述非线性系统的动力学模型，主要用于研究时空混沌动力学。耦合晶格模型是一个典型的离散动力学模型，在离散特征方面，耦合晶格模型有些类似元胞自动机，每一个元胞自动机的状态只依赖于他的邻居。在耦合晶格系统中，每一个节点的状态也只取决于与他耦合的邻居，对耦合晶格模型的研究可以帮助我们理解诸多现实系统，如种群，化学，生物等。
+
+**Learn More**
+
+图书：<a href="https://books.google.com/books?hl=zh-CN&lr=&id=a63Q8DhKA44C&oi=fnd&pg=PA1&dq=+Chazottes,+Jean-René,+and+Bastien+Fernandez.+Dynamics+of+Coupled+Map+Lattices+and+of+Related+Spatially+Extended+Systems.+Springer,+2004.+pgs+1–4&ots=HmPpMnZ1s4&sig=1M1WcKzG0bRp1BzQ6kau-H1QIiE"> Chazottes, Jean-René, and Bastien Fernandez. Dynamics of Coupled Map Lattices and of Related Spatially Extended Systems. Springer, 2004. pgs 1–4</a>
+
+Wikipedia：<a href="https://en.wikipedia.org/wiki/Coupled_map_lattice">Coupled Map Lattice</a>
 
 **动力学方程**
 

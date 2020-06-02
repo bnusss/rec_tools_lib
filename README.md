@@ -1,6 +1,6 @@
 ## Tools for reconstruction methods / dynamics models and data
 
-我们在这个库中整理了本组常用的网络重构方法，数据生成方法及数据，本项目保持持续更新
+我们在这个库中整理了常用的网络重构 / 因果推断方法，网络上的数据生成方法及可用于网络重构/因果推断和动力学学习的数据，本项目保持持续更新
 
 <hr/>
 
@@ -9,7 +9,7 @@
 - 动力学模型
 	- <a href="#11">Kuramoto Model</a>
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
-- 网络重构方法
+- 网络重构/因果推断方法
 - 常用数据
 
 ## 动力学模型

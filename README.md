@@ -147,7 +147,7 @@ python dyn_models/menten.py
 **数据说明**
 
 
-- 运行上述方法会将生成数据存储于dyn_model/cml文件夹下
+- 运行上述方法会将生成数据存储于dyn_model/文件夹下
 - 数据格式为3维numpy array，形如[timestep, node num, dim]
 	- 第1维：每次初始化后的迭代步数，可调
 	- 第2维：节点数，可调

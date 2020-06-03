@@ -117,6 +117,7 @@ python dyn_models/cml/data_generator_cml.py
 Michaelis–Menten kinetics 是一个基因调控网络
 
 论文：<a href="https://www.nature.com/articles/nbt.2601">Network link prediction by global silencing of indirect correlations</a>
+
 论文：<a href="https://www.nature.com/articles/nrm2503">Modelling and analysis of gene regulatory networks</a>
 
 

@@ -105,11 +105,6 @@ Wikipedia：<a href="https://en.wikipedia.org/wiki/Coupled_map_lattice">Coupled 
 
 Michaelis–Menten kinetics 是一个基因调控网络
 
-**Learn More**
-
-论文：<a href=https://www.nature.com/articles/nrm2503> 
-	
-论文：<a href=https://www.nature.com/articles/nbt.2601>
 
 **动力学方程**
 

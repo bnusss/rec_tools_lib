@@ -116,28 +116,36 @@ python dyn_models/cml/data_generator_cml.py
 
 Michaelis–Menten kinetics 是一个基因调控网络
 
+
 论文：<a href="https://www.nature.com/articles/nbt.2601">Network link prediction by global silencing of indirect correlations</a>
+
 
 论文：<a href="https://www.nature.com/articles/nrm2503">Modelling and analysis of gene regulatory networks</a>
 
 
 **动力学方程**
 
+
 <img src="./resource/menten.png" alt="">
+
 
 其中ni表示节点的邻居节点个数，Jij表示从j到i的有向连接
 
+
 **模型地址**
+
 ```
 ./dyn_model/menten
 ```
 
 **数据生成**
+
 ```
 python dyn_models/menten.py
 ```
 
 **数据说明**
+
 
 - 运行上述方法会将生成数据存储于dyn_model/cml文件夹下
 - 数据格式为4维numpy array，形如[timestep, node num, dim]

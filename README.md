@@ -84,6 +84,17 @@ Wikipedia：<a href="https://en.wikipedia.org/wiki/Coupled_map_lattice">Coupled 
 
 <img src="./resource/cml-eq1.png" alt="">
 
+**模型地址**
+```
+./dyn_model/cml/
+```
+
+**数据生成**
+```
+python dyn_models/cml/data_generator_kuramoto.py
+```
+
+
 
 **数据说明**
 

@@ -9,6 +9,7 @@
 - 动力学模型
 	- <a href="#11">Kuramoto Model</a>
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
+	- <a href="#12">Michaelis–Menten kinetics Model</a>
 - 网络重构/因果推断方法
 - 常用数据
 
@@ -104,6 +105,48 @@ python dyn_models/cml/data_generator_cml.py
 - 除生成基本数据外，此代码还将同时生成切割后的数据，并将按照5:1:1的比例分别存储为训练集，测试集，校验集，可以用于多步预测
 	- 关于切割及多步预测细节，可咨询刘晶
 
+#### Michaelis–Menten kinetics
+
+
+**介绍**
+
+Michaelis–Menten kinetics 是一个基因调控网络
+
+
+
+**Learn More**
+
+论文：<a href=https://www.nature.com/articles/nrm2503> Karlebach, G. & Shamir, R. Modelling and analysis of gene regulatory networks. Nat. Rev. Mol. Cell Biol. 9, 770–780 (2008).
+     <a href=https://www.nature.com/articles/nbt.2601>Barzel, B. & Barabási, A.-L. Network link prediction by global silencing of indirect correlations. Nat. Biotechnol. 31, 720–725 (2013).
+
+**动力学方程**
+
+<img src="./resource/cml-eq0.png" alt="">
+
+其中X表示节点的位置，s表示耦合常数，f(x)表示logistic映射函数，其具体形式如下：
+
+<img src="./resource/cml-eq1.png" alt="">
+
+**模型地址**
+```
+./dyn_model/cml/
+```
+
+**数据生成**
+```
+python dyn_models/cml/data_generator_cml.py
+```
+
+**数据说明**
+
+- 运行上述方法会将生成数据存储于dyn_model/cml文件夹下
+- 数据格式为4维numpy array，形如[sample num, node num, timestep, feature]
+	- 第1维：重新初始化的次数，可调
+	- 第2维：节点数，可调
+	- 第3维：每次初始化后的迭代步数，可调
+	- 第4维：节点位置，维度维1，不可调
+- 除生成基本数据外，此代码还将同时生成切割后的数据，并将按照5:1:1的比例分别存储为训练集，测试集，校验集，可以用于多步预测
+	- 关于切割及多步预测细节，可咨询刘晶
 
 
 

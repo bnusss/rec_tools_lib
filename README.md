@@ -178,13 +178,15 @@ python dyn_models/menten.py
 **模型地址**
 
 ```
-./ARNI
+./ARNI/ARNI_Python/ARNIpy/reconstruct.py 
 ```
 
 **文件说明**
 
 有两个版本：matlab python
 python中reconstruct.py文件是整合后的版本可以直接运行
+python中menten_ARNI是生成数据文件，生成的是menten动力学
+
 
 
 

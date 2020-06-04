@@ -114,7 +114,7 @@ python dyn_models/cml/data_generator_cml.py
 
 **介绍**
 
-Michaelis–Menten kinetics 是一个基因调控网络
+Michaelis–Menten kinetics 米-门二氏动2113力学：一5261种非线性毒物动力学模式
 
 
 论文：<a href="https://www.nature.com/articles/nbt.2601">Network link prediction by global silencing of indirect correlations</a>

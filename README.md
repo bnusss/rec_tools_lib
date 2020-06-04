@@ -11,6 +11,7 @@
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
 	- <a href="#12">Michaelis–Menten kinetics Model</a>
 - 网络重构/因果推断方法
+
         - <a href="#11">ARNI</a>
 - 常用数据
 
@@ -153,6 +154,7 @@ python dyn_models/menten.py
 	- 第1维：每次初始化后的迭代步数，可调
 	- 第2维：节点数，可调
 	- 第3维：维度维1，不可调
+
 
 #### ARNI- Algorithm for Revealing Network Interactions
 

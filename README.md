@@ -11,8 +11,7 @@
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
 	- <a href="#12">Michaelis–Menten kinetics Model</a>
 - 网络重构/因果推断方法
-
-        - <a href="#11">ARNI</a>
+	- <a href="#11">ARNI</a>
 - 常用数据
 
 ## 动力学模型

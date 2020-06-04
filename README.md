@@ -114,7 +114,7 @@ python dyn_models/cml/data_generator_cml.py
 
 **介绍**
 
-Michaelis–Menten kinetics 米-门二氏动2113力学：一5261种非线性毒物动力学模式,描述酶促反应动力学的方程式,它们可以从描述相关分子物种浓度变化的常微分方程中推导出来，只需要一些简化的假设。
+Michaelis–Menten kinetics 米-门二氏动2113力学：一种非线性动力学模式,描述酶促反应动力学的方程式,它们可以从描述相关分子物种浓度变化的常微分方程中推导出来，只需要一些简化的假设。
 
 
 论文：<a href="https://www.nature.com/articles/nbt.2601">Network link prediction by global silencing of indirect correlations</a>

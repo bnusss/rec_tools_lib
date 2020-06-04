@@ -3,10 +3,64 @@ from math import pi
 import numpy as np
 from sklearn.metrics import roc_curve, auc
 import sys
-
+import matplotlib.pyplot as plt
 from basis_expansion import basis_expansion
+import time
 
-def reconstruct(MODEL, NODE, BASIS, ORDER):
+start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+print('start_time:', start_time)
+
+def calc_tptnfpfn(out,adj):
+    tp = 0
+    fp = 0
+    tn = 0
+    fn = 0
+    for i in range(out.shape[0]):
+        for j in range(out.shape[0]):
+            if adj[i][j] == 1:
+                # positive
+                if out[i][j] == 1:
+                    # true positive
+                    tp += 1
+                else:
+                    # false positive
+                    fn += 1
+            else:
+                # negative
+                if out[i][j] == 1:
+                    # true negative
+                    fp += 1
+                else:
+                    # false neg
+                    tn += 1
+    return tp,tn,fp,fn
+
+def evaluation_indicator(tp,tn,fp,fn):
+    try:
+        tpr = float(tp) / (tp + fn)
+    except ZeroDivisionError:
+        tpr=0
+    try:
+        fpr = float(fp) / (fp + tn)
+    except ZeroDivisionError:
+        fpr = 0
+    try:
+        tnr = float(tn) / (tn + fp)
+    except ZeroDivisionError:
+        tnr = 0
+    try:
+        fnr = float(fn) / (tp + fn)
+    except ZeroDivisionError:
+        fnr = 0
+    p = tp / (tp + fp)
+    r = tp / (tp + fn)
+    try:
+        f1_score = 2 * p * r / (p + r)
+    except ZeroDivisionError:
+        f1_score = 0
+    return tpr, fpr, tnr, fnr, f1_score
+
+def reconstruct(MODEL, NODE_LIST, BASIS, ORDER):
     '''
     reconstruct(MODEL, NODE, BASIS, ORDER) returns a ranked list of the inferred
     incoming connections
@@ -52,9 +106,10 @@ def reconstruct(MODEL, NODE, BASIS, ORDER):
      '''
 
     #Stopping criterium: decrease it to recover longer list of possible links
-    th=0.0001
+    th = 0.00001
+    print('th:' + str(th))
 
-    models=['kuramoto1', 'kuramoto2', 'michaelis_menten', 'roessler']
+    models=['kuramoto1', 'kuramoto2', 'michaelis_menten', 'roessler','voter','cml']
     bases=['polynomial', 'polynomial_diff', 'fourier', 'fourier_diff', 'power_series', 'RBF']
 
     if (MODEL not in models):
@@ -66,22 +121,29 @@ def reconstruct(MODEL, NODE, BASIS, ORDER):
     else:
         print('Initiating reconstruction...')
         print('Reading data...')
-        data = np.loadtxt('Data/data.dat', delimiter='\t')
-        connectivity = np.loadtxt('Data/connectivity.dat', delimiter='\t')
-        ts_param=np.loadtxt('Data/ts_param.dat', delimiter='\t')
+        #读取数据
+        data = np.loadtxt('/data/zhangyan/Real net&dyn/gene/menten_data_600.dat', delimiter='\t')
+        connectivity = np.loadtxt('/data/zhangyan/Real net&dyn/gene/menten_connectivity_600.dat', delimiter='\t')
+        ts_param=np.loadtxt('/data/zhangyan/Real net&dyn/gene/menten_ts_param_600.dat', delimiter='\t')
         data=data.transpose()
 
-        S = int(ts_param[0])
-        M = int(ts_param[1])
-        N = int(data.shape[0])
+        S = int(ts_param[0]) #30
+        M = int(ts_param[1]) #10
+        N = int(data.shape[0])  #（25，300）
+
+        print('**************************')
+        print('N:'+str(N))
+        print(data.shape)
+        print('**************************')
 
         x = data
 
         # Estimating time derivatives and constructing input matrices
+        #估计时间导数和构造输入矩阵
         print('Estimating time derivatives and constructing input matrices...')
         Xtemp = np.array([])
         DX = np.array([])
-        for s in xrange(S):
+        for s in range(S):
             m_start = M*s
             m_end = M*s + (M-1)
             x0 = x[:,m_start:m_end]
@@ -90,115 +152,30 @@ def reconstruct(MODEL, NODE, BASIS, ORDER):
             Ytemp = (x0 + x1) * 0.5
             DY = x1 - x0
 
+            #水平平铺
             Xtemp = np.hstack((Xtemp, Ytemp)) if Xtemp.size else Ytemp
             DX = np.hstack((DX, DY)) if DX.size else DY
+            # print('__________________________________')
+            # print(s)
+            # print('Xtemp'+str(Xtemp.shape))
+            # print('DX'+str(DX.shape))
+            # print('__________________________________')
 
-        if MODEL == 'roessler':
-            # Construction of connectivity matrix for Roessler oscillators
-            # including y and z variables
-            Ns = int(np.ceil(N/3.))
-            connectivity2 = np.zeros((Ns,N))
+        X = Xtemp
+        # Beginning of reconstruction algorithm
+        #创建一个邻接矩阵
+        predict_matrix1 = np.zeros((N,N))
+        predict_matrix2 = np.zeros((N, N))
+        print('Performing ARNI...')
+        t_s = time.time()
+        loss_dict = dict()
+        mse_dict = dict()
+        for NODE in NODE_LIST:
 
-            # for each node, x1 regulated by x2 & x3. Modify adjacency matrix
-            # for comparison to predictions
-            for i in xrange(Ns):
-                for j in xrange(Ns):
-                    connectivity2[i,(3*j)+0] = connectivity[i,j]
-                    if i == j:
-                        connectivity2[i,(3*j)+1] = 1
-                        connectivity2[i, (3*j)+2] = 1
-
-            X = Xtemp
-
-            #beginning of reconstruction algorithm
-            print('Performing ARNI...')
-            Y = basis_expansion(X, ORDER, BASIS, NODE)
-            nolist = range(N)
-            llist = []
-            cost = []
-            b = 1
-            vec = np.zeros(N,)
-            while (nolist and (b==1)):
-                #composition of inferred subspaces
-                Z = np.array([])
-                for n in xrange(len(llist)):
-                    Z = np.vstack((Z, Y[:,:,llist[n]])) if Z.size else Y[:,:,llist[n]]
-
-                # Projection on remaining composite subspaces
-                P = np.zeros((len(nolist), 2))
-                cost_err = np.zeros(len(nolist),)
-                for n in xrange(len(nolist)):
-                    #composition of a possible space
-                    R = np.vstack((Z, Y[:,:,nolist[n]])) if Z.size else Y[:,:,nolist[n]]
-                    #Error of projection on possible composite space
-                    #  ( A.R=DX )
-                    RI = np.linalg.pinv(R)
-                    A = np.dot(DX[(3*NODE),:], RI)
-                    DX_est = np.dot(A, R)
-                    DIFF = DX[(3*NODE),:] - DX_est
-                    P[n,0] = np.std(DIFF)
-                    P[n,1] = int(nolist[n])
-                    # Fitting cost of possible composite
-                    cost_err[n] = (1/float(M)) * np.linalg.norm(DIFF)
-                    R = np.array([])
-
-                if np.std(P[:,0]) < th:
-                    b = 0
-                    break
-
-                else:
-                    # Selection of composite space which minimizes projection error
-                    MIN = np.min(P[:,0]) #best score
-                    block = np.argmin(P[:,0]) #node index of best
-                    llist.append(int(P[block,1])) # add best node ID to llist
-                    nolist.remove(int(P[block,1])) # remove best from candidate list
-                    vec[int(P[block,1])] = MIN # used in ROC curve
-                    cost.append(cost_err[block]) # record SS error
-
-            # end of reconstruction algorithm
-            if not llist:
-                print('WARNING: no predicted regulators - check that NODE abundance varies in the data!')
-                AUC = np.nan
-                FPR = [np.nan]
-                TPR = [np.nan]
-
-            #evaluation of results via AUC score
-            else:
-                #load connectivity for comparison
-                adjacency = connectivity2
-                adjacency[adjacency != 0] = 1
-
-                print('Quality of reconstruction:')
-
-                if (np.sum(adjacency[NODE,:]) == 0):
-                    print('WARNING: no true positive regulators!')
-                    AUC = np.nan
-                    FPR = [np.nan]
-                    TPR = [np.nan]
-                else:
-                    # Evaluation of results via AUC score
-                    FPR, TPR, _ = roc_curve(np.abs(adjacency[NODE,:]), np.abs(vec), 1)
-                    AUC = auc(FPR, TPR)
-
-                    FPR = np.insert(FPR,0,0.)
-                    TPR = np.insert(TPR,0,0.)
-
-                print(AUC)
-
-
-
-        else: #if not Roessler
-            if MODEL in ('kuramoto1', 'kuramoto2'):
-                #Transforming data coming from phase oscillators
-                X = np.mod(Xtemp, 2*pi)
-            else:
-                X = Xtemp
-
-            # Beginning of reconstruction algorithm
-            print('Performing ARNI...')
             # Y[basis, sample, node]
             Y = basis_expansion(X, ORDER, BASIS, NODE)
-            nolist = range(N)
+            #print('Y:'+str(Y.shape))
+            nolist = list(range(N))
             llist = []
             cost = []
             b=1
@@ -206,13 +183,13 @@ def reconstruct(MODEL, NODE, BASIS, ORDER):
             while (nolist and (b==1)):
                 #composition of inferred subspaces
                 Z = np.array([])
-                for n in xrange(len(llist)):
+                for n in range(len(llist)):
                     Z = np.vstack((Z,Y[:,:,llist[n]])) if Z.size else Y[:,:,llist[n]]
 
                 # projection on remaining composite spaces
                 P = np.zeros((len(nolist),2))
                 cost_err = np.zeros(len(nolist),)
-                for n in xrange(len(nolist)):
+                for n in range(len(nolist)):
                     #composition of a possible spaces
                     R = np.vstack((Z, Y[:,:,nolist[n]])) if Z.size else Y[:,:,nolist[n]]
                     #error of projection on possible composite space
@@ -221,6 +198,9 @@ def reconstruct(MODEL, NODE, BASIS, ORDER):
                     A = np.dot(DX[NODE,:], RI)
                     DX_est = np.dot(A, R)
                     DIFF = DX[NODE,:] - DX_est
+                    DIFF_2 = DIFF**2
+                    loss_dict[NODE] = DIFF
+                    mse_dict[NODE] = DIFF_2
                     P[n,0] = np.std(DIFF) # the uniformity of error
                     P[n,1] = int(nolist[n])
                     #Fitting cost of possible composite space
@@ -240,7 +220,7 @@ def reconstruct(MODEL, NODE, BASIS, ORDER):
                     nolist.remove(int(P[block,1])) # remove best from candidate list
                     vec[int(P[block,1])] = MIN # used in ROC curve
                     cost.append(cost_err[block]) # record SS Error
-            print('Reconstruction has finished!')
+            #print('Reconstruction has finished!')
 
             if not llist:
                 print('WARNING: no predicted regulators - check that NODE abundance varies in the data!')
@@ -249,35 +229,88 @@ def reconstruct(MODEL, NODE, BASIS, ORDER):
                 TPR = [np.nan]
 
             else:
-                #load connectivity for comparison
-                adjacency = connectivity
-                adjacency[adjacency != 0] = 1
+                for no in llist:
+                    predict_matrix1[no][NODE] = vec[no]
+                    predict_matrix2[no][NODE] = 1
+        t_e = time.time()
+        print('time for thisPerforming ARNI:' + str(round(t_e - t_s, 2)))
+        print('Quality of reconstruction:')
+        adjacency = connectivity
+        adjacency[adjacency != 0] = 1
+        # if MODEL == 'michaelis_menten':
+        #     for i in range(N):
+        #         adjacency[i, i] = 1
 
-                #adding degradation rate to true adjecency matric of Michaelis-menten systems
-                if MODEL == 'michaelis_menten':
-                    for i in xrange(N):
-                        adjacency[i,i] = 1
+        print('--------------------------------------')
+        # print(len(loss_dict.values()))
+        # print(len(loss_dict))
+        loss_ave = abs(sum(loss_dict.values())/len(loss_dict))
+        mse_ave = abs(sum(mse_dict.values())/len(mse_dict))
+        loss = np.mean(loss_ave)
+        mse = np.mean(mse_ave)
+        print('loss:'+str(loss))
+        print('mse:' + str(mse))
+        FPR1, TPR1,_ = roc_curve(adjacency.reshape(-1),
+                                           predict_matrix1.reshape(-1), 1)
+        # print('FPR1:'+str(FPR1))
+        # print('TPR1:'+str(TPR1))
+        AUC1 = auc(FPR1, TPR1)
+        print('AUC1:'+str(AUC1))
+        print('--------------------------------------')
 
-                print('Quality of reconstruction:')
+        print('--------------------------------------')
+        FPR2, TPR2, _ = roc_curve(adjacency.reshape(-1),
+                                  predict_matrix2.reshape(-1), 1)
+        # print('FPR2:' + str(FPR2))
+        # print('TPR2:' + str(TPR2))
+        AUC2 = auc(FPR2, TPR2)
+        print('AUC2:' + str(AUC2))
+        print('--------------------------------------')
 
-                if (np.sum(adjacency[NODE,:]) == 0):
-                    print('WARNING: no true regulators!')
-                    AUC = np.nan
-                    FPR = [np.nan]
-                    TPR = [np.nan]
-                else:
-                    # Evaluation of results via AUC score
-                    FPR, TPR, _ = roc_curve(np.abs(adjacency[NODE,:]),
-                    np.abs(vec), 1)
-                    AUC = auc(FPR, TPR)
-                    FPR = np.insert(FPR,0,0.)
-                    TPR = np.insert(TPR,0,0.)
+        # 算err
+        err = np.sum(np.abs(predict_matrix2 - adjacency))
+        # 计算tp,,
+        tp, tn, fp, fn = calc_tptnfpfn(predict_matrix2, adjacency)
+        tpr, fpr, tnr, fnr, f1_score = evaluation_indicator(tp, tn, fp, fn)
+        print('err:', err)
+        print('tp:', tp)
+        print('tn:', tn)
+        print('fp:', fp)
+        print('fn:', fn)
+        print('tpr:', tpr)
+        print('fpr:', fpr)
+        print('tnr:', tnr)
+        print('fnr:', fnr)
+        print('f1:', f1_score)
 
-                print(AUC)
+        print('-----------------------------------------')
 
-        return(llist, cost, FPR, TPR, AUC)
+    return(predict_matrix2, cost, FPR1, TPR1, AUC1, FPR2, TPR2, AUC2)
 
 if __name__ =='__main__':
-    llist, cost,_,_,_= reconstruct('roessler', 0,'polynomial', 2)
-    print(llist)
-    print(cost)
+    ORDER = 6
+    BASIS = ('polynomial', 'polynomial_diff', 'fourier', 'fourier_diff', 'power_series', 'RBF')
+    NAMES = ('Polynomial', 'Polynomial Diff', 'Fourier', 'Fourier Diff', 'Power Series', 'Radial Basis Function')
+    # BASIS = ('polynomial', 'fourier', 'power_series', 'RBF')
+    # NAMES = ('Polynomial', 'Fourier', 'Power Series', 'Radial Basis Function')
+    NODE_LIST = list(range(100))
+
+    f1, axes1 = plt.subplots(2, 3)
+    axes1 = np.ravel(axes1)
+
+    for i in range(len(BASIS)):
+        print('BASIS:'+BASIS[i])
+        predict_matrix2, cost, FPR1, TPR1, AUC1, FPR2, TPR2, AUC2 = reconstruct('michaelis_menten',NODE_LIST, BASIS[i], ORDER)
+        axes1[i].plot(FPR1, TPR1)
+        axes1[i].set_xlabel('FPR1')
+        axes1[i].set_ylabel('TPR1')
+        axes1[i].set_title( NAMES[i]+'AUC1 score=%.3f' % AUC1, fontsize=8)
+
+    f1.tight_layout()
+    f1.subplots_adjust(top=0.80)
+
+
+plt.show()
+
+end_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+print('end_time:', end_time)

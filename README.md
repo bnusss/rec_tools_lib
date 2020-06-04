@@ -11,6 +11,7 @@
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
 	- <a href="#12">Michaelis–Menten kinetics Model</a>
 - 网络重构/因果推断方法
+        - <a href="#11">ARNI</a>
 - 常用数据
 
 ## 动力学模型
@@ -152,6 +153,37 @@ python dyn_models/menten.py
 	- 第1维：每次初始化后的迭代步数，可调
 	- 第2维：节点数，可调
 	- 第3维：维度维1，不可调
+
+#### ARNI- Algorithm for Revealing Network Interactions
+
+
+**介绍**
+
+网络相互作用揭示算法(ARNI)是文章中使用的非线性集体动力学直接网络相互作用的无模型推断算法，基于非线性集体动力学，ARNI 揭示了网络的交互拓扑结构，既没有假设特定的动力学模型是已知的，也没有假设动力学模型是稀疏表示的，也没有在网络上强加受控的驱动。
+
+在这个存储库中，您将找到用 Matlab 和 Python 实现的示例代码和函数。
+
+
+论文：<a href="https://www.nature.com/articles/s41467-017-02288-4">Model-free inference of direct network interactions from nonlinear collective dynamics</a>
+
+
+**动力学方程**
+
+
+<img src="./resource/ARNI.jpg" alt="">
+
+
+
+**模型地址**
+
+```
+./ARNI
+```
+
+**文件说明**
+
+有两个版本：matlab python
+python中reconstruct.py文件是整合后的版本可以直接运行
 
 
 

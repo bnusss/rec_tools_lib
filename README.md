@@ -11,7 +11,7 @@
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
 	- <a href="#12">Michaelis–Menten kinetics Model</a>
 - 网络重构/因果推断方法
-	- <a href="#11">ARNI</a>
+	- <a href="#21">ARNI</a>
 - 常用数据
 
 ## 动力学模型
@@ -110,6 +110,8 @@ python dyn_models/cml/data_generator_cml.py
 
 
 
+<div id="13"></div>
+<hr/>
 #### Michaelis–Menten kinetics
 
 
@@ -155,7 +157,12 @@ python dyn_models/menten.py
 	- 第3维：维度维1，不可调
 
 
-#### ARNI- Algorithm for Revealing Network Interactions
+
+
+## 网络重构 / 因果推断方法
+<div id="21"></div>
+<hr/>
+### ARNI- Algorithm for Revealing Network Interactions
 
 
 **介绍**

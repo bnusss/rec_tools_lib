@@ -12,6 +12,7 @@
 	- <a href="#12">Michaelis–Menten kinetics Model</a>
 - 网络重构/因果推断方法
 	- <a href="#21">ARNI</a>
+	- <a href="#22">使用压缩感知方法重构SIS动力学</a>
 - 常用数据
 
 ## 动力学模型
@@ -193,6 +194,15 @@ python dyn_models/menten.py
 有两个版本：matlab python
 python中reconstruct.py文件是整合后的版本可以直接运行
 python中menten_ARNI是生成数据文件，生成的是menten动力学
+
+<div id="22"></div>
+<hr/>
+### 使用压缩感知方法重构SIS动力学
+
+
+
+
+
 
 
 

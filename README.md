@@ -10,7 +10,7 @@
 	- <a href="#11">Kuramoto Model</a>
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
 	- <a href="#13">Michaelis–Menten kinetics Model</a>
-	- <a href="#14">SIR（Responsible：张妍，DDL：8.2）</a>
+	- <a href="#14">SIR</a>
 	- <a href="#15">Voter模型（Responsible：张章，DDL：8.9）</a>
 	- <a href="#16">N-K自动机（Responsible：张章，DDL：8.9）</a>
 	- <a href="#17">网络上的人工股票市场（李红刚老师模型）（Responsible：陶然）</a>
@@ -80,7 +80,7 @@ python dyn_models/kuramoto/data_generator_kuramoto.py
 <div id="12"></div>
 <hr/>
 
-#### Coupled Map Lattice(CML) Model
+### Coupled Map Lattice(CML) Model
 
 
 **介绍**
@@ -128,7 +128,7 @@ python dyn_models/cml/data_generator_cml.py
 
 <div id="13"></div>
 <hr/>
-#### Michaelis–Menten kinetics
+### Michaelis–Menten kinetics
 
 
 **介绍**
@@ -172,8 +172,58 @@ python dyn_models/menten.py
 	- 第2维：节点数，可调
 	- 第3维：维度维1，不可调
 
+### SIR
+
+**介绍**
+
+SIR模型是一种传播模型，是信息传播过程的抽象描述。
+SIR模型是传染病模型中最经典的模型，其中S表示易感者，I表示感染者，R表示移除者。
+S：Susceptible，易感者
+I：Infective，感染者
+R：Removal，移除者
+传播过程大致如下：最初，所有的节点都处于易感染状态。然后，部分节点接触到信息后，变成感染状态，这些感染状态的节点试着去感染其他易感染状态的节点，或者进入恢复状态。感染一个节点即传递信息或者对某事的态度。恢复状态，即免疫，处于恢复状态的节点不再参与信息的传播。
+
+论文：<a href="https://link.springer.com/article/10.1007/s11071-020-05769-2">Investigating time, strength, and duration of measures in controlling the spread of COVID-19 using a networked meta-population model</a>
 
 
+**动力学方程**
+
+<img src="./resource/SIR.png" alt="">
+
+Sn，In，Rn 是这些状态的总体，sn , in , rn 分别是这些状态的相对分数。sn= Sn / Nn, in = In / Nn, rn = Rn / Nn 分别是城市 n 中敏感个体、确认个体、恢复个体的分数，Nn是城市 n 的人口规模。P是根据迁移数据计算的迁移矩阵，0 ≤ P mn ≤ 1表示从城市 n 向城市 m 迁移的比例，占离开城市 n 的总人口的比例。其中a是感染率，b是康复率。
+
+**模型地址**
+
+```
+./dyn_model/SIR——new/
+```
+
+**数据生成**
+
+```
+python dyn_models/SIR——new/SIR_generator.py
+```
+
+**数据生成说明**
+
+data_path:存放数据的路径
+运行上述方法会将生成的数据存储于data_path路径下
+数据格式为3维numpy array，形如[time_steps,node num,feature]
+第一维：运行完上述方法总共生成多少时间步的数据，可调，
+第二维：节点的数量，371（迁徙数据中包含371个城市），不可调
+第三维：节点信息，包含S I R 三个信息，维度为3，不可调
+
+time_steps调整方式：通过修改代码中的 ‘--times’参数，time_steps = times *10  （其他参数尽量不要随意改动）
+注：本数据生成采用的底层网络结构是全国城市人口的迁徙数据
+
+**数据加载说明**
+
+在数据加载过程中，会根据实际问题，将原本的数据格式[time_steps,node num,feature] 变为[time_steps//prediction_steps,prediction_steps,node num,feature]
+
+第一维：受prediction_steps影响，最后会形成多少个时间对
+第二维：prediction_steps 当前实验要做的是几步预测，可调。如果是单步预测，prediction_steps 设置为2；如果是双步预测，prediction_steps 设置为3；以此类推...
+第三维：节点的数量，371（迁徙数据中包含371个城市），不可调
+第四维：节点信息，包含S I R 三个信息，维度为3，不可调
 
 ## 网络重构 / 因果推断方法
 <div id="21"></div>

@@ -15,6 +15,7 @@
 	- <a href="#16">N-K自动机（Responsible：张章，DDL：8.9）</a>
 	- <a href="#17">网络上的人工股票市场（李红刚老师模型）（Responsible：陶然）</a>
 	- <a href="#18">网络上的人工股票市场（Pastore模型）（Responsible：赵诣）</a>
+	- <a href="#19">Spring System（Responsible：张章）</a>
 - 网络重构/因果推断方法
 	- 代码公开方法
 		- 对于很多经典的方法，如格兰杰因果检验，相关性，互信息等，网上已经存在着开源代码，甚至封装好了可以直接给我们调用的库，<a href="https://netrd.readthedocs.io/en/latest/index.html">Netrd</a>就是这样的一个代码库。我们可以在其中找到很多经典的网络重构方法，如：

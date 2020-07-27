@@ -79,7 +79,7 @@ python dyn_models/kuramoto/data_generator_kuramoto.py
 <div id="12"></div>
 <hr/>
 
-#### Coupled Map Lattice(CML) Model
+### Coupled Map Lattice(CML) Model
 
 
 **介绍**
@@ -127,7 +127,7 @@ python dyn_models/cml/data_generator_cml.py
 
 <div id="13"></div>
 <hr/>
-#### Michaelis–Menten kinetics
+### Michaelis–Menten kinetics
 
 
 **介绍**
@@ -171,7 +171,26 @@ python dyn_models/menten.py
 	- 第2维：节点数，可调
 	- 第3维：维度维1，不可调
 
+### SIR
 
+**介绍**
+SIR模型是一种传播模型，是信息传播过程的抽象描述。
+SIR模型是传染病模型中最经典的模型，其中S表示易感者，I表示感染者，R表示移除者。
+S：Susceptible，易感者
+I：Infective，感染者
+R：Removal，移除者
+传播过程大致如下：最初，所有的节点都处于易感染状态。然后，部分节点接触到信息后，变成感染状态，这些感染状态的节点试着去感染其他易感染状态的节点，或者进入恢复状态。感染一个节点即传递信息或者对某事的态度。恢复状态，即免疫，处于恢复状态的节点不再参与信息的传播。
+
+**动力学方程**
+
+
+**模型地址**
+
+
+**数据生成**
+
+
+**数据说明**
 
 
 ## 网络重构 / 因果推断方法

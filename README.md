@@ -192,12 +192,35 @@ Sn，In，Rn 是这些状态的总体，sn , in , rn 分别是这些状态的相
 
 **模型地址**
 
+```
+./dyn_model/SIR——new/
+```
 
 **数据生成**
 
+```
+python dyn_models/SIR——new/SIR_generator.py
+```
 
-**数据说明**
+**数据生成说明**
 
+data_path:存放数据的路径
+运行上述方法会将生成的数据存储于data_path路径下
+数据格式为3维numpy array，形如[time_steps,node num,feature]
+第一维：运行完上述方法总共生成多少时间步的数据，可调，
+第二维：节点的数量，371（迁徙数据中包含371个城市），不可调
+第三维：节点信息，包含S I R 三个信息，维度为3，不可调
+
+time_steps调整方式：通过修改代码中的 ‘--times’参数，time_steps = times *10  （其他参数尽量不要随意改动）
+注：本数据生成采用的底层网络结构是全国城市人口的迁徙数据
+
+**数据加载说明**
+在数据加载过程中，会根据实际问题，将原本的数据格式[time_steps,node num,feature] 变为[time_steps//prediction_steps,prediction_steps,node num,feature]
+
+第一维：受prediction_steps影响，最后会形成多少个时间对
+第二维：prediction_steps 当前实验要做的是几步预测，可调。如果是单步预测，prediction_steps 设置为2；如果是双步预测，prediction_steps 设置为3；以此类推...
+第三维：节点的数量，371（迁徙数据中包含371个城市），不可调
+第四维：节点信息，包含S I R 三个信息，维度为3，不可调
 
 ## 网络重构 / 因果推断方法
 <div id="21"></div>

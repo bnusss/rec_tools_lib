@@ -215,6 +215,7 @@ time_steps调整方式：通过修改代码中的 ‘--times’参数，time_ste
 注：本数据生成采用的底层网络结构是全国城市人口的迁徙数据
 
 **数据加载说明**
+
 在数据加载过程中，会根据实际问题，将原本的数据格式[time_steps,node num,feature] 变为[time_steps//prediction_steps,prediction_steps,node num,feature]
 
 第一维：受prediction_steps影响，最后会形成多少个时间对

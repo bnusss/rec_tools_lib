@@ -9,10 +9,12 @@
 - 动力学模型
 	- <a href="#11">Kuramoto Model</a>
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
-	- <a href="#12">Michaelis–Menten kinetics Model</a>
+	- <a href="#13">Michaelis–Menten kinetics Model</a>
+	- <a href="#14">布尔网络上的传染病模型（Responsible：张章，DDL：8.9）</a>
 - 网络重构/因果推断方法
 	- <a href="#21">ARNI</a>
-	- <a href="#22">使用压缩感知方法重构SIS动力学</a>
+	- <a href="#22">使用压缩感知方法重构SIS动力学（Responsible：高飞，DDL：8.9）</a>
+	- <a href="#23">CCM方法（Responsible：张妍，DDL：8.2）</a>
 - 常用数据
 
 ## 动力学模型
@@ -197,7 +199,24 @@ python中menten_ARNI是生成数据文件，生成的是menten动力学
 
 <div id="22"></div>
 <hr/>
+
 ### 使用压缩感知方法重构SIS动力学
+
+**读书会回放**
+<a href="https://campus.swarma.org/course/1740/study">https://campus.swarma.org/course/1740/study（第五章）</a>
+
+高飞正在进行中
+
+
+<div id="23"></div>
+<hr/>
+
+### CCM方法
+
+**读书会回放**
+<a href="https://campus.swarma.org/course/1740/study">https://campus.swarma.org/course/1740/study（第七章）</a>
+
+
 
 
 

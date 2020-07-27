@@ -174,6 +174,7 @@ python dyn_models/menten.py
 ### SIR
 
 **介绍**
+
 SIR模型是一种传播模型，是信息传播过程的抽象描述。
 SIR模型是传染病模型中最经典的模型，其中S表示易感者，I表示感染者，R表示移除者。
 S：Susceptible，易感者

@@ -10,7 +10,7 @@
 	- <a href="#11">Kuramoto Model</a>
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
 	- <a href="#13">Michaelis–Menten kinetics Model</a>
-	- <a href="#14">SIR（Responsible：张妍，DDL：8.2）</a>
+	- <a href="#14">SIR</a>
 	- <a href="#15">Voter模型（Responsible：张章，DDL：8.9）</a>
 	- <a href="#16">N-K自动机（Responsible：张章，DDL：8.9）</a>
 	- <a href="#17">网络上的人工股票市场（李红刚老师模型）（Responsible：陶然）</a>

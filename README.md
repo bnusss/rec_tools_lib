@@ -181,8 +181,14 @@ I：Infective，感染者
 R：Removal，移除者
 传播过程大致如下：最初，所有的节点都处于易感染状态。然后，部分节点接触到信息后，变成感染状态，这些感染状态的节点试着去感染其他易感染状态的节点，或者进入恢复状态。感染一个节点即传递信息或者对某事的态度。恢复状态，即免疫，处于恢复状态的节点不再参与信息的传播。
 
+论文：<a href="https://link.springer.com/article/10.1007/s11071-020-05769-2">Investigating time, strength, and duration of measures in controlling the spread of COVID-19 using a networked meta-population model</a>
+
+
 **动力学方程**
 
+<img src="./resource/SIR.png" alt="">
+
+Sn，In，Rn 是这些状态的总体，sn , in , rn 分别是这些状态的相对分数。sn= Sn / Nn, in = In / Nn, rn = Rn / Nn 分别是城市 n 中敏感个体、确认个体、恢复个体的分数，Nn是城市 n 的人口规模。P是根据迁移数据计算的迁移矩阵，0 ≤ P mn ≤ 1表示从城市 n 向城市 m 迁移的比例，占离开城市 n 的总人口的比例。其中a是感染率，b是康复率。
 
 **模型地址**
 

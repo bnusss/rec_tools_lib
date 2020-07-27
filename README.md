@@ -12,6 +12,13 @@
 	- <a href="#13">Michaelis–Menten kinetics Model</a>
 	- <a href="#14">布尔网络上的传染病模型（Responsible：张章，DDL：8.9）</a>
 - 网络重构/因果推断方法
+	- 代码公开方法
+		- 对于很多经典的方法，如格兰杰因果检验，相关性，互信息等，网上已经存在着开源代码，甚至封装好了可以直接给我们调用的库，<a href="https://netrd.readthedocs.io/en/latest/index.html">Netrd</a>就是这样的一个代码库。我们可以在其中找到很多经典的网络重构方法，如：
+		- <a href="https://netrd.readthedocs.io/en/latest/reconstruction.html#netrd.reconstruction.PartialCorrelationInfluence">Partial Correlation Inference</a>
+		- <a href="https://netrd.readthedocs.io/en/latest/reconstruction.html#netrd.reconstruction.ConvergentCrossMapping">Convergent Cross Mapping</a>
+		- <a href="https://netrd.readthedocs.io/en/latest/reconstruction.html#netrd.reconstruction.GrangerCausality">Granger Causality</a>
+		- <a href="https://netrd.readthedocs.io/en/latest/reconstruction.html#netrd.reconstruction.MutualInformationMatrix">Mutual Information Matrix</a>
+		- 其他的方法请见netrd官方文档，如果我们要复现某个新的方法，也请先去查看文档中是否已经存在着封装好的库，以免重复劳动
 	- <a href="#21">ARNI</a>
 	- <a href="#22">使用压缩感知方法重构SIS动力学（Responsible：高飞，DDL：8.9）</a>
 	- <a href="#23">CCM方法（Responsible：张妍，DDL：8.2）</a>

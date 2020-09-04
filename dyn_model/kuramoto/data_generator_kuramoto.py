@@ -308,9 +308,9 @@ class Kuramoto(object):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--num-train', type=int, default=50,help='reinit time in train set')
-    parser.add_argument('--num-valid', type=int, default=10,help='reinit time in valid set')
-    parser.add_argument('--num-test', type=int, default=10,help='reinit time in test set')
+    parser.add_argument('--num-train', type=int, default=5,help='reinit time in train set')
+    parser.add_argument('--num-valid', type=int, default=2,help='reinit time in valid set')
+    parser.add_argument('--num-test', type=int, default=12,help='reinit time in test set')
     parser.add_argument('--n_type', type=str, default='ER',help='type of network')
     parser.add_argument('--num-node', type=int, default=10,help='num of node')
     parser.add_argument('--ER_p', type=int, default=0.5,help='possibility of connection')

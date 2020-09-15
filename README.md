@@ -11,11 +11,11 @@
 	- <a href="#12">Coupled Map Lattice(CML) Model</a>
 	- <a href="#13">Michaelis–Menten kinetics Model</a>
 	- <a href="#14">SIR</a>
-	- <a href="#15">Voter模型（Responsible：张章，DDL：8.9）</a>
-	- <a href="#16">N-K自动机（Responsible：张章，DDL：8.9）</a>
-	- <a href="#17">网络上的人工股票市场（李红刚老师模型）（Responsible：陶然）</a>
-	- <a href="#18">网络上的人工股票市场（Pastore模型）（Responsible：赵诣）</a>
-	- <a href="#19">Spring System（Responsible：张章）</a>
+	- <a href="#15">Voter模型</a>
+	- <a href="#16">N-K自动机</a>
+	- <a href="#17">网络上的人工股票市场</a>
+	- <a href="#18">网络上的人工股票市场（Pastore模型）</a>
+	- <a href="#19">Spring System</a>
 - 网络重构/因果推断方法
 	- 代码公开方法
 		- 对于很多经典的方法，如格兰杰因果检验，相关性，互信息等，网上已经存在着开源代码，甚至封装好了可以直接给我们调用的库，<a href="https://netrd.readthedocs.io/en/latest/index.html">Netrd</a>就是这样的一个代码库。我们可以在其中找到很多经典的网络重构方法，如：
@@ -25,7 +25,7 @@
 		- <a href="https://netrd.readthedocs.io/en/latest/reconstruction.html#netrd.reconstruction.MutualInformationMatrix">Mutual Information Matrix</a>
 		- 其他的方法请见netrd官方文档，如果我们要复现某个新的方法，也请先去查看文档中是否已经存在着封装好的库，以免重复劳动
 	- <a href="#21">ARNI</a>
-	- <a href="#22">使用压缩感知方法重构SIS动力学（Responsible：高飞，DDL：8.9）</a>
+	- <a href="#22">使用压缩感知方法重构SIS动力学（Responsible：高飞）</a>
 - 常用数据
 	- 新冠病毒数据（Responsible：Jake）
 
@@ -225,6 +225,45 @@ time_steps调整方式：通过修改代码中的 ‘--times’参数，time_ste
 第二维：prediction_steps 当前实验要做的是几步预测，可调。如果是单步预测，prediction_steps 设置为2；如果是双步预测，prediction_steps 设置为3；以此类推...
 第三维：节点的数量，371（迁徙数据中包含371个城市），不可调
 第四维：节点信息，包含S I R 三个信息，维度为3，不可调
+
+
+<div id="11"></div>
+<hr/>
+
+### Voter Model
+
+**介绍**
+
+投票动力学模型是观点传播动力学（opinion dynamics）模型类中的简单模型，他的机制如下：在t时刻，节点i会随机选取一个邻居节点j，用j在t-1时刻的状态来代替自己t时刻的状态。
+
+**Learn More**
+
+
+**动力学方程**
+
+
+**模型地址**
+```
+./dyn_model/voter/
+```
+
+**数据生成**
+```
+可直接参考voter内的ipynb文件
+```
+
+**数据说明**
+
+- 运行上述方法会将生成数据存储于dyn_model/voter文件夹下
+- 数据格式为3维numpy array，形如[sample num, timestep, node]
+	- 第1维：重新初始化的次数，可调
+	- 第2维：节点数，可调
+	- 第3维：每次初始化后的迭代步数，可调
+	- 节点上的信息为0或1
+- 可在模型参数配置中设置底层的网络结构为无标度网络或小世界网络，并可设置网络参数，具体在代码内部，参数设置处有说明
+
+
+
 
 ## 网络重构 / 因果推断方法
 <div id="21"></div>

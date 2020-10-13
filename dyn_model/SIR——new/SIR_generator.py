@@ -7,9 +7,10 @@ import time
 from scipy.integrate import odeint
 import argparse
 import sys
+import random
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--times', type=int, default=10000, help='一共采样多少次, default=5000')
+parser.add_argument('--times', type=int, default=2500, help='一共采样多少次, default=5000')
 parser.add_argument('--sample_freq', type=int, default=50, help='采样频率 50步踩1次')
 args = parser.parse_args()
 
@@ -117,8 +118,13 @@ def generate_network():
     #         #     # 大于0.00796352246的设置为1 4%
     pij_c = (pij > 0.02210023336) + 0
     pij_c = pij_c.astype(int)
+    pij_c2 = np.zeros((pij_c.shape[0],pij_c.shape[0]))
+    for i in range(pij_c.shape[0]):
+
+        pij_c2[i, :] = pij_c[i, :] / np.sum(pij_c[i, :])
+    print(np.sum(pij_c2,1))
     # return pij
-    return pij_c.T
+    return pij_c2.T
 #
 def diff(sicol, t, r_0, t_l, gamma, pijt):
     # sicol:感染、确诊、易感
@@ -184,7 +190,7 @@ def generate_data(matrix):
         Ss0 = np.ones(len(nodes))
         Rs0 = np.zeros(len(nodes))
 
-        city_chose = random.randint(0, 371)
+        city_chose = random.randint(0, 370)
         # print(city_chose)
         Is0[city_chose] = random.uniform(1, 10) * (1e-4)
         Rs0[city_chose] = random.uniform(1, 10) * (1e-4)
@@ -206,14 +212,14 @@ def generate_data(matrix):
         # Rs_data = Rs[250:, :]
         # Ss_data = Ss[250:, :]
         #选取其中50day-200day 的数据
-        Is = Is[167:667, :]
-        Rs = Rs[167:667, :]
-        Ss = Ss[167:667, :]
-
+        # Is = Is[100:900, :]
+        # Rs = Rs[100:900, :]
+        # Ss = Ss[100:900, :]
+    #
         len_node = Is.shape[1]
-        Is_list = np.zeros((500 // args.sample_freq, len_node))
-        Rs_list = np.zeros((500 // args.sample_freq, len_node))
-        Ss_list = np.zeros((500 // args.sample_freq, len_node))
+        Is_list = np.zeros((1000 // args.sample_freq, len_node))
+        Rs_list = np.zeros((1000 // args.sample_freq, len_node))
+        Ss_list = np.zeros((1000 // args.sample_freq, len_node))
         for j in range(Is_list.shape[0]):
             Is_list[j] = Is[args.sample_freq * j, :]
             Rs_list[j] = Rs[args.sample_freq * j, :]
@@ -230,9 +236,14 @@ def generate_data(matrix):
             simu_all =  np.concatenate((simu_all,simu),axis=0)
 
     print(simu_all.shape)
+        # Is_data2 = Is[:, :, np.newaxis]
+        # Rs_data2 = Rs[:, :, np.newaxis]
+        # Ss_data2 = Ss[:, :, np.newaxis]
+        # simu_all = np.concatenate((Is_data2, Rs_data2, Ss_data2), axis=2)
 
     results = [matrix, simu_all]
-    data_path = '/data/zhangyan/SIR/new_SIR_weight_times_'+str(10* args.times)+'.pickle'
+    data_path = '/data/zhangyan/SIR/new_SIR_weight_times_hhh'+str(10* args.times)+'.pickle'
+    # data_path = './data/SIR_T_' + str(20 * args.times) + '.pickle'
 
     with open(data_path, 'wb') as f:
         pickle.dump(results, f)
@@ -247,4 +258,3 @@ generate_data(edges)
 print('数据生成完成')
 end_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 print('end_time:', end_time)
-#print('time for generate data:' + str(round(end_time - start_time, 2)))

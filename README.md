@@ -268,7 +268,7 @@ time_steps调整方式：通过修改代码中的 ‘--times’参数，time_ste
 
 **介绍**
 
-![热扩散](image.qiniu.shawnwang.tech/mweb/111.gif)
+![热扩散](http://image.qiniu.shawnwang.tech/mweb/111.gif)
 
 [Neural Dynamics on Complex Networks](https://arxiv.org/abs/1908.06491) grid 邻接矩阵 + 热扩散动力学
 

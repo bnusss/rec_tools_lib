@@ -272,6 +272,22 @@ time_steps调整方式：通过修改代码中的 ‘--times’参数，time_ste
 
 [Neural Dynamics on Complex Networks](https://arxiv.org/abs/1908.06491) grid 邻接矩阵 + 热扩散动力学
 
+### Glauber dynamics
+
+**介绍**
+
+See `./dyn_model/GlauberDynamics/demo.ipynb` for the introduction of Glauber dynamics and how to generate data. Besides, we also provide how to do exact reconstruction by maximum likelihood estimation and the Naive Mean-field solution.
+
+**模型地址**
+```
+./dyn_model/GlauberDynamics
+```
+
+**数据生成**
+
+See `./dyn_model/GlauberDynamics/demo.ipynb`.
+
+
 
 ## 网络重构 / 因果推断方法
 <div id="21"></div>
